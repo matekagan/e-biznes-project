@@ -1,0 +1,17 @@
+.menu-component {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    font-weight: 600;
+}
+
+.logo {
+    // width: 120px;
+    height: 31px;
+    background: rgba(255, 255, 255, 0.2);
+    margin: 20px;
+    color: white;
+    text-align: center;
+    padding: 5px;
+    font-weight: 500;
+  }

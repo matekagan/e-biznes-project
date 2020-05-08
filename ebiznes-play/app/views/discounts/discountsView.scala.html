@@ -1,0 +1,37 @@
+@(discounts: Seq[Discount])(implicit request: MessagesRequestHeader, flash: Flash)
+
+@main("Discounts") {
+
+    <div>
+        @flash.get("success").getOrElse("")
+
+        <a class="button" href=@controllers.shop.routes.DiscountController.createDiscountForm()>Create Discount</a>
+
+        <table class="common-table">
+            <tr>
+                <th>Product ID</th>
+                <th>Discount</th>
+                <th>Actions</th>
+            </tr>
+            @for(discount <- discounts) {
+                <tr>
+                    <td>
+                    @discount.id
+                    </td>
+                    <td>
+                        @(discount.discount / 100.0) $
+                    </td>
+                    <td>
+                        <a class="button" href=@controllers.shop.routes.DiscountController.deleteDiscount(discount.id)>
+                            DELETE
+                        </a>
+                        <a class="button" href=@controllers.shop.routes.DiscountController.updateDiscountForm(discount.id)>
+                            EDIT
+                        </a>
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+
+}

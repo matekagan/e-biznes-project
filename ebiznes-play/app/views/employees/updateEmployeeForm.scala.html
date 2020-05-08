@@ -1,0 +1,20 @@
+@import controllers.shop.UpdateEmployeeForm
+@(employee: Form[UpdateEmployeeForm])(implicit request: MessagesRequestHeader, flash: Flash)
+
+@import helper._
+
+@main("Udpate Employee") {
+    @flash.get("success").getOrElse("")
+
+    @form(controllers.shop.routes.EmployeeController.updateEmployeeHandle()) {
+        @helper.CSRF.formField
+        <input name="id" id="id" value="@employee("id").value" type="hidden" />
+        @inputText(employee("firstName"))
+        @inputText(employee("lastName"))
+        @inputText(employee("position"))
+
+        <div class="buttons">
+            <input type="submit" value="Update Employee"/>
+        </div>
+    }
+}

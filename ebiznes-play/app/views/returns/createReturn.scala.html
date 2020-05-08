@@ -1,0 +1,18 @@
+@import controllers.shop.CreateReturnForm
+@(returnObject: Form[CreateReturnForm], order: Int)(implicit request: MessagesRequestHeader, flash: Flash)
+
+@import helper._
+
+@main("Create return"){
+    @flash.get("success").getOrElse("")
+
+    @form(controllers.shop.routes.ReturnController.createReturnHandle(order)) {
+        @helper.CSRF.formField
+        @inputText(returnObject("status"))
+        @inputText(returnObject("reason"))
+
+        <div class="buttons">
+            <input type="submit" value="Create Return"/>
+        </div>
+    }
+}

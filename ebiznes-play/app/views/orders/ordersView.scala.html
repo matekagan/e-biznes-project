@@ -1,0 +1,49 @@
+@(orders: Seq[Order])(implicit request: MessagesRequestHeader, flash: Flash)
+
+@main("Orders") {
+
+    <div>
+        @flash.get("success").getOrElse("")
+        <table class="common-table">
+            <tr>
+                <th>ID</th>
+                <th>Created Date</th>
+                <th>Value</th>
+                <th>Status</th>
+                <th>Home Devilery</th>
+                <th>User</th>
+                <th>Address</th>
+                <th>E mail</th>
+                <th>Phone</th>
+                <th>Actions</th>
+            </tr>
+            @for(order <- orders) {
+                <tr>
+                    <td>@order.id</td>
+                    <td>@order.createDate</td>
+                    <td>@(order.value / 100.0)</td>
+                    <td>@order.status</td>
+                    <td>@order.homeDelivery</td>
+                    <td>@("%s %s".format(order.firstName, order.lastName))</td>
+                    <td>@order.address</td>
+                    <td>@order.email</td>
+                    <td>@order.phone</td>
+                    <td>
+                        <a class="button" href=@controllers.shop.routes.OrderController.deleteOrder(order.id)>
+                            DELETE
+                        </a>
+                        <a class="button" href=@controllers.shop.routes.OrderController.updateOrderForm(order.id)>
+                            EDIT
+                        </a>
+                        <a class="button" href=@controllers.shop.routes.PaymentController.createPaymentForm(order.id)>
+                            ADD PAYMENT
+                        </a>
+                        <a class="button" href=@controllers.shop.routes.ReturnController.createReturnForm(order.id)>
+                            CREATE RETURN
+                        </a>
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+}

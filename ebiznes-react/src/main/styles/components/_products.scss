@@ -1,0 +1,28 @@
+.products-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    div {
+        color: white;
+        width: 300px;
+        margin: 0;
+        font-weight: 500;
+        font-size: $m-size;
+        text-align: left;
+    }
+
+    > button {
+        height: 40px;
+        margin: 0 20;
+        padding: 7px;
+        align-items: center;
+        text-align: center;
+        font-weight: 400;
+    }
+
+    span {
+        height: 40px;
+        margin: 0;
+    }
+}

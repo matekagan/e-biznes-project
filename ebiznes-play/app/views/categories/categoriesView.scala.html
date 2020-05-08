@@ -1,0 +1,36 @@
+@(categories: Seq[Category])(implicit request: MessagesRequestHeader, flash: Flash)
+
+
+@main("Categories") {
+
+    <div>
+        @flash.get("success").getOrElse("")
+        <a class="button" href=@controllers.shop.routes.CategoriesController.createCategoryForm()>Create Category</a>
+
+        <table class="common-table">
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Actions</th>
+            </tr>
+            @for(category <- categories) {
+                <tr>
+                    <td>
+                    @category.id
+                    </td>
+                    <td>
+                    @category.name
+                    </td>
+                    <td>
+                        <a class="button" href=@controllers.shop.routes.CategoriesController.deleteCategory(category.id)>
+                            DELETE
+                        </a>
+                        <a class="button" href=@controllers.shop.routes.CategoriesController.updateCategoryForm(category.id)>
+                            EDIT
+                        </a>
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+}

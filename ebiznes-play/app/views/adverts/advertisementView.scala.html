@@ -1,0 +1,40 @@
+@(adverts: Seq[Advertisement])(implicit request: MessagesRequestHeader, flash: Flash)
+
+@main("Advertisements") {
+
+    <div>
+        @flash.get("success").getOrElse("")
+
+        <a class="button" href=@controllers.shop.routes.AdvertisementController.createAdForm()>Create Advert</a>
+
+        <table class="common-table">
+            <tr>
+                <th>ID</th>
+                <th>Text</th>
+                <th>Link</th>
+                <th>Actions</th>
+            </tr>
+            @for(advert <- adverts) {
+                <tr>
+                    <td>
+                    @advert.id
+                    </td>
+                    <td>
+                    @advert.text
+                    </td>
+                    <td>
+                        <a href=@advert.link>@advert.link</a>
+                    </td>
+                    <td>
+                        <a class="button" href=@controllers.shop.routes.AdvertisementController.deleteAd(advert.id)>
+                            DELETE
+                        </a>
+                        <a class="button" href=@controllers.shop.routes.AdvertisementController.updateAdForm(advert.id)>
+                            EDIT
+                        </a>
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+}

@@ -1,0 +1,33 @@
+.product-view-header {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+
+    .product-view-header-product {
+        width: 150px;
+    }
+
+    .product-view-header-buttons {
+        span {
+            margin: 0 20px;
+        }
+
+        button {
+            height: 42px;
+            margin: 0 20px;
+        }
+    }
+
+}
+
+.comment-content {
+    padding: 10px;
+
+    p {
+        margin: 5px;
+    }
+
+    .comment-rating {
+        margin: 5px;
+    }
+}

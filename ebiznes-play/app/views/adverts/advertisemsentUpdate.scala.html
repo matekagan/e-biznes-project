@@ -1,0 +1,21 @@
+@import controllers.shop.UpdateAdvertisementForm
+
+@(advert: Form[UpdateAdvertisementForm])(implicit request: MessagesRequestHeader, flash: Flash)
+
+@import helper._
+
+@main("Update Ad") {
+    @flash.get("success").getOrElse("")
+
+    @form(controllers.shop.routes.AdvertisementController.updateAd()) {
+        @helper.CSRF.formField
+
+        <input name="id" id="id" value="@advert("id").value" type="hidden" />
+        @inputText(advert("text"))
+        @inputText(advert("link"))
+
+        <div class="buttons">
+            <input type="submit" value="Update Advert"/>
+        </div>
+    }
+}

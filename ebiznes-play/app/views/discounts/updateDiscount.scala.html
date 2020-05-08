@@ -1,0 +1,18 @@
+@import controllers.shop.DiscountForm
+@(discount: Form[DiscountForm])(implicit request: MessagesRequestHeader, flash: Flash)
+
+@import helper._
+
+@main("Update Discount") {
+    @flash.get("success").getOrElse("")
+
+    @form(controllers.shop.routes.DiscountController.createDiscountOrUpdate()) {
+        @helper.CSRF.formField
+        @inputText(discount("discount"))
+        <input name="product" id="product" value="@discount("product").value" type="hidden" />
+
+        <div class="buttons">
+            <input type="submit" value="Add Discount"/>
+        </div>
+    }
+}

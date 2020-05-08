@@ -1,0 +1,104 @@
+
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# An example controller showing a sample home page
+GET           /                                    controllers.HomeController.index
+
+# Map static resources from the /public folder to the /assets URL path
+GET           /assets/*file                        controllers.Assets.versioned(path="/public", file: Asset)
+
+POST          /cart/create                         controllers.shop.CartController.createCart
+PUT           /cart/update/:id                     controllers.shop.CartController.handleUpdate(id:Int)
+DELETE        /cart/:uuid/delete                   controllers.shop.CartController.deleteCart(uuid:String)
+GET           /cart/:id/delete-by-id               controllers.shop.CartController.deleteCartByID(id:Int)
+GET           /cart/:uuid/products                 controllers.shop.CartController.getProducts(uuid:String)
+GET           /cart/:id/get                        controllers.shop.CartController.getByID(id:Int)
+GET           /cart/list                           controllers.shop.CartController.listCarts
+GET           /cart/view                           controllers.shop.CartController.viewCarts()
+
+GET           /products/create-form                controllers.shop.ProductController.createProductForm
+POST          /products/create-handle              controllers.shop.ProductController.createProductHandle
+GET           /products/:id/update-form            controllers.shop.ProductController.updateProductForm(id: Int)
+POST          /products/update-handle              controllers.shop.ProductController.updateProductHandle
+GET           /products/:id/delete                 controllers.shop.ProductController.deleteProduct(id:Int)
+GET           /products/list                       controllers.shop.ProductController.listProducts
+GET           /products/:id/get                    controllers.shop.ProductController.getProduct(id:Int)
+GET           /products/search                     controllers.shop.ProductController.search(name: Option[String])
+GET           /products/:id/opinions               controllers.shop.OpinionController.listProductOpinions(id:Int)
+GET           /products/list-with-discount         controllers.shop.ProductController.listWithDiscounts(id: List[Int])
+GET           /products/view                       controllers.shop.ProductController.viewProducts()
+
+GET           /payments/create-form/:order         controllers.shop.PaymentController.createPaymentForm(order: Int)
+POST          /payments/create/:order              controllers.shop.PaymentController.createPayment(order:Int)
+GET           /payments/:id/update-form            controllers.shop.PaymentController.updatePaymentForm(id:Int)
+POST          /payments/update-handle              controllers.shop.PaymentController.updatePaymentHandle
+GET           /payments/:id/delete                 controllers.shop.PaymentController.deletePayment(id:Int)
+GET           /payments/list                       controllers.shop.PaymentController.listPayments
+GET           /payments/:id/get                    controllers.shop.PaymentController.getPayment(id:Int)
+GET           /payments/view                       controllers.shop.PaymentController.viewPayments()
+
+GET           /categories/create-form              controllers.shop.CategoriesController.createCategoryForm
+POST          /categories/create-handle            controllers.shop.CategoriesController.createCategoryHandle
+GET           /categories/:id/update-form          controllers.shop.CategoriesController.updateCategoryForm(id: Int)
+POST          /categories/update-handle            controllers.shop.CategoriesController.updateCategoryHanlde
+GET           /categories/:id/delete               controllers.shop.CategoriesController.deleteCategory(id:Int)
+GET           /categories/list                     controllers.shop.CategoriesController.listCategories
+GET           /categories/:id/get                  controllers.shop.CategoriesController.getCategory(id:Int)
+GET           /categories/view                     controllers.shop.CategoriesController.viewCategories()
+GET           /categories/:id/products             controllers.shop.ProductController.listProductsByCategory(id:Int)
+
+GET           /adverts/create-form                 controllers.shop.AdvertisementController.createAdForm
+POST          /adverts/create                      controllers.shop.AdvertisementController.createAd
+GET           /adverts/:id/update-form             controllers.shop.AdvertisementController.updateAdForm(id: Int)
+POST          /adverts/update                      controllers.shop.AdvertisementController.updateAd
+GET           /adverts/:id/delete                  controllers.shop.AdvertisementController.deleteAd(id:Int)
+GET           /adverts/list                        controllers.shop.AdvertisementController.listAds
+GET           /adverts/:id/get                     controllers.shop.AdvertisementController.getAd(id:Int)
+GET           /adverts/view                        controllers.shop.AdvertisementController.viewAds()
+GET           /adverts/random                        controllers.shop.AdvertisementController.getRandomAds(amount: Option[Int])
+
+POST          /orders/create                       controllers.shop.OrderController.createOrder
+GET           /orders/:id/update-form              controllers.shop.OrderController.updateOrderForm(id:Int)
+POST          /orders/update-handle                controllers.shop.OrderController.updateOrderHandle()
+GET           /orders/:id/delete                   controllers.shop.OrderController.deleteOrder(id:Int)
+GET           /orders/list                         controllers.shop.OrderController.listOrders
+GET           /orders/:id/get                      controllers.shop.OrderController.getOrder(id:Int)
+GET           /orders/view                         controllers.shop.OrderController.viewOrders()
+
+POST          /returns/create                      controllers.shop.ReturnController.createReturn
+GET           /returns/create-form/:order          controllers.shop.ReturnController.createReturnForm(order: Int)
+POST          /returns/create-handle/:order        controllers.shop.ReturnController.createReturnHandle(order: Int)
+GET           /returns/:id/update-form             controllers.shop.ReturnController.updateReturnForm(id: Int)
+POST          /returns/update-handle               controllers.shop.ReturnController.updateReturnHandle
+GET           /returns/:id/delete                  controllers.shop.ReturnController.deleteReturn(id:Int)
+GET           /returns/list                        controllers.shop.ReturnController.listReturns
+GET           /returns/:id/get                     controllers.shop.ReturnController.getReturn(id:Int)
+GET           /returns/view                        controllers.shop.ReturnController.viewReturns
+
+GET           /discounts/create-form               controllers.shop.DiscountController.createDiscountForm
+POST          /discounts/create-handle             controllers.shop.DiscountController.createDiscountOrUpdate
+GET           /discounts/:id/update-form           controllers.shop.DiscountController.updateDiscountForm(id:Int)
+PUT           /discounts/update-handle             controllers.shop.DiscountController.createDiscountOrUpdate
+GET           /discounts/:id/delete                controllers.shop.DiscountController.deleteDiscount(id:Int)
+GET           /discounts/list                      controllers.shop.DiscountController.listDiscounts
+GET           /discounts/:id/get                   controllers.shop.DiscountController.getDiscount(id:Int)
+GET           /discounts/view                      controllers.shop.DiscountController.viewDiscounts()
+
+GET           /employees/create-form               controllers.shop.EmployeeController.addEmployeeForm
+POST          /employees/create-handle             controllers.shop.EmployeeController.addEmployeeHandle
+GET           /employees/:id/update-form           controllers.shop.EmployeeController.updateEmployeeForm(id: Int)
+POST          /employees/update-handle             controllers.shop.EmployeeController.updateEmployeeHandle
+GET           /employees/:id/delete                controllers.shop.EmployeeController.deleteEmployee(id:Int)
+GET           /employees/list                      controllers.shop.EmployeeController.listEmployees
+GET           /employees/:id/get                   controllers.shop.EmployeeController.getEmployee(id:Int)
+GET           /employees/view                      controllers.shop.EmployeeController.viewEmployees()
+
+POST          /opinions/create                     controllers.shop.OpinionController.createOpinion
+PUT           /opinions/:id/update                 controllers.shop.OpinionController.updateOpinion(id:Int)
+GET           /opinions/:id/remove                 controllers.shop.OpinionController.removeOpinion(id:Int)
+DELETE        /opinions/:id/delete                 controllers.shop.OpinionController.deleteOpinion(id:Int)
+GET           /opinions/list                       controllers.shop.OpinionController.listOpinions
+GET           /opinions/:id/get                    controllers.shop.OpinionController.getOpinion(id:Int)
+GET           /opinions/view                       controllers.shop.OpinionController.viewOpinions()

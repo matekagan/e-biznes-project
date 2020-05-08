@@ -1,0 +1,44 @@
+@(payments: Seq[Payment])(implicit request: MessagesRequestHeader, flash: Flash)
+
+@main("Employees") {
+    <div>
+        @flash.get("success").getOrElse("")
+        <table class="common-table">
+            <tr>
+                <th>ID</th>
+                <th>Order</th>
+                <th>Value</th>
+                <th>Status</th>
+                <th>CreatedTime</th>
+                <th>Actions</th>
+            </tr>
+            @for(payment <- payments) {
+                <tr>
+                    <td>
+                    @payment.id
+                    </td>
+                    <td>
+                    @payment.order
+                    </td>
+                    <td>
+                        @(payment.value / 100.0) $
+                    </td>
+                    <td>
+                    @payment.status
+                    </td>
+                    <td>
+                    @payment.createdTime
+                    </td>
+                    <td>
+                        <a class="button" href=@controllers.shop.routes.PaymentController.deletePayment(payment.id)>
+                            DELETE
+                        </a>
+                        <a class="button" href=@controllers.shop.routes.PaymentController.updatePaymentForm(payment.id)>
+                            EDIT
+                        </a>
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+}

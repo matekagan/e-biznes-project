@@ -1,0 +1,32 @@
+@import controllers.shop.OrderUpdateForm
+@(order: Form[OrderUpdateForm])(implicit request: MessagesRequestHeader, flash: Flash)
+
+@import helper._
+
+@main("Update Order") {
+    @flash.get("success").getOrElse("")
+
+    @form(controllers.shop.routes.OrderController.updateOrderHandle()) {
+        @helper.CSRF.formField
+        @inputText(order("status"))
+        @inputText(order("address"))
+        <input name="id" id="id" value="@order("id").value" type="hidden" />
+        <input name="value" id="value" value="@order("value").value" type="hidden" />
+        <input name="createDate" id="createDate" value="@order("createDate").value" type="hidden" />
+        <input name="firstName" id="firstName" value="@order("firstName").value" type="hidden" />
+        <input name="lastName" id="lastName" value="@order("lastName").value" type="hidden" />
+        <input name="email" id="email" value="@order("email").value" type="hidden" />
+        <input name="phone" id="phone" value="@order("phone").value" type="hidden" />
+        <input
+        name="homeDelivery"
+        id="homeDelivery"
+        value="true"
+        type="checkbox"
+            @if(order("homeDelivery").value.contains("true")){checked="checked"}
+        />
+
+        <div class="buttons">
+            <input type="submit" value="Update Order"/>
+        </div>
+    }
+}

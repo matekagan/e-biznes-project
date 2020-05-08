@@ -1,0 +1,19 @@
+@import controllers.shop.AddEmployeeForm
+@(employee: Form[AddEmployeeForm])(implicit request: MessagesRequestHeader, flash: Flash)
+
+@import helper._
+
+@main("Add Employee"){
+    @flash.get("success").getOrElse("")
+
+    @form(controllers.shop.routes.EmployeeController.addEmployeeHandle()) {
+        @helper.CSRF.formField
+        @inputText(employee("firstName"))
+        @inputText(employee("lastName"))
+        @inputText(employee("position"))
+
+        <div class="buttons">
+            <input type="submit" value="Add Employee"/>
+        </div>
+    }
+}

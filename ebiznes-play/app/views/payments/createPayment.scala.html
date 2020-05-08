@@ -1,0 +1,19 @@
+
+@import controllers.shop.CreatePaymentForm
+@(payment: Form[CreatePaymentForm], order:Int)(implicit request: MessagesRequestHeader, flash: Flash)
+
+@import helper._
+
+@main("Create Payment") {
+    @flash.get("success").getOrElse("")
+
+    @form(controllers.shop.routes.PaymentController.createPayment(order)) {
+        @helper.CSRF.formField
+        @inputText(payment("value"))
+        @inputText(payment("status"))
+
+        <div class="buttons">
+            <input type="submit" value="Add Payment"/>
+        </div>
+    }
+}

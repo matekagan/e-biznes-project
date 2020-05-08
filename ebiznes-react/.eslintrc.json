@@ -1,0 +1,62 @@
+{
+    "parser": "babel-eslint",
+    "extends": [
+        "airbnb",
+        "plugin:jest/recommended"
+    ],    "plugins": [
+        "babel",
+        "class-property"
+    ],
+    "env": {
+        "browser": true,
+        "es6": true,
+        "node": true,
+        "jest/globals": true
+    },
+    "parserOptions": {
+        "ecmaFeatures": {
+            "jsx": true
+        },
+        "ecmaVersion": 6,
+        "sourceType": "module"
+    },
+    "rules": {
+        "object-curly-newline": "off",
+        "no-this-before-super": "warn",
+        "no-undef": "warn",
+        "no-unreachable": "warn",
+        "no-unused-vars": "warn",
+        "constructor-super": "warn",
+        "valid-typeof": "warn",
+        "linebreak-style":"off",
+        "react/prefer-stateless-function": "warn",
+        "indent": ["error", 4],
+        "react/jsx-indent": "off",
+        "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
+        "jsx-a11y/heading-has-content": "off",
+        "arrow-body-style": ["error", "as-needed"],
+        "comma-dangle": ["error", "never"],
+        "no-use-before-define":"off",
+        "class-methods-use-this":"off",
+        "react/no-multi-comp": "warn",
+        "react/react-in-jsx-scope": "off",
+        "react/prop-types": "off",
+        "react/jsx-indent-props": "off",
+        "react/no-did-mount-set-state": "warn",
+        "consistent-return":"warn",
+        "import/prefer-default-export": "warn",
+        "babel/no-invalid-this": 1,
+        "react/sort-comp": [1, {
+            "order": [
+              "instance-variables",
+              "constructor",
+              "static-methods",
+              "/^handle.+$/",
+              "everything-else",
+              "lifecycle",
+              "render"
+            ]
+          }],
+         "react/jsx-boolean-value": "off" 
+    }
+}

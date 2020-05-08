@@ -1,0 +1,35 @@
+@(returnObjs: Seq[Return])(implicit request: MessagesRequestHeader, flash: Flash)
+
+@main("Payments") {
+    <div>
+        @flash.get("success").getOrElse("")
+        <table class="common-table">
+            <tr>
+                <th>Order</th>
+                <th>Status</th>
+                <th>Reason</th>
+                <th>Actions</th>
+            </tr>
+            @for(returnObj <- returnObjs) {
+                <tr>
+                    <td>
+                    @returnObj.id
+                    </td>
+                    <td>
+                    @returnObj.status
+                    </td>
+                    <td>
+                    @returnObj.reason
+                    <td>
+                        <a class="button" href=@controllers.shop.routes.ReturnController.deleteReturn(returnObj.id)>
+                            DELETE
+                        </a>
+                        <a class="button" href=@controllers.shop.routes.ReturnController.updateReturnForm(returnObj.id)>
+                            EDIT
+                        </a>
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+}

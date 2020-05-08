@@ -1,0 +1,19 @@
+@import controllers.shop.UpdateReturnForm
+@(returnObject: Form[UpdateReturnForm])(implicit request: MessagesRequestHeader, flash: Flash)
+
+@import helper._
+
+@main("Update Return") {
+    @flash.get("success").getOrElse("")
+
+    @form(controllers.shop.routes.ReturnController.updateReturnHandle()) {
+        @helper.CSRF.formField
+        @inputText(returnObject("status"))
+        <input name="order" id="order" value="@returnObject("order").value" type="hidden" />
+                <input name="reason" id="reason" value="@returnObject("reason").value" type="hidden" />
+
+        <div class="buttons">
+            <input type="submit" value="Update Return"/>
+        </div>
+    }
+}

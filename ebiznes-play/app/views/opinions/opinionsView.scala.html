@@ -1,0 +1,43 @@
+@(opinions: Seq[Opinion])(implicit request: MessagesRequestHeader, flash: Flash)
+
+@main("Opinions") {
+
+<div>
+    @flash.get("success").getOrElse("")
+
+    <table class="common-table">
+        <tr>
+            <th>ID</th>
+            <th>Product</th>
+            <th>Rating</th>
+            <th>Comment</th>
+            <th>Date</th>
+            <th>Actions</th>
+        </tr>
+        @for(opinion <- opinions) {
+            <tr>
+                <td>
+                @opinion.id
+                </td>
+                <td>
+                @opinion.product
+                </td>
+                <td>
+                @opinion.rating
+                </td>
+                <td>
+                @opinion.comment
+                </td>
+                <td>
+                @opinion.timestamp
+                </td>
+                <td>
+                    <a class="button" href=@controllers.shop.routes.OpinionController.removeOpinion(opinion.id)>
+                            DELETE
+                    </a>
+                </td>
+            </tr>
+        }
+    </table>
+</div>
+}

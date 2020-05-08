@@ -1,0 +1,19 @@
+@import controllers.shop.CreateAdvertisementForm
+
+@(advert: Form[CreateAdvertisementForm])(implicit request: MessagesRequestHeader, flash: Flash)
+
+@import helper._
+
+@main("Create Add") {
+    @flash.get("success").getOrElse("")
+
+    @form(controllers.shop.routes.AdvertisementController.createAd()) {
+        @helper.CSRF.formField
+        @inputText(advert("text"))
+        @inputText(advert("link"))
+
+        <div class="buttons">
+            <input type="submit" value="Create Advert"/>
+        </div>
+    }
+}

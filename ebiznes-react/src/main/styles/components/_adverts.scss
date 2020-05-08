@@ -1,0 +1,17 @@
+.adverts-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.advert {
+    display: block;
+    text-align: center;
+    background-color: #4d0b6b;
+    color: white;
+    border-radius: 5px;
+    margin: 20px;
+    padding: 10px;
+    font-size: $m-size;
+    font-weight: 500;
+}

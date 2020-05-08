@@ -1,0 +1,44 @@
+@(products: Seq[Product])(implicit request: MessagesRequestHeader, flash: Flash)
+
+@main("Products") {
+
+    <div>
+        @flash.get("success").getOrElse("")
+        <div>
+            <a class="button" href=@controllers.shop.routes.ProductController.createProductForm()>Create Product</a>
+        </div>
+        <table class="common-table">
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Price</th>
+                <th>Actions</th>
+            </tr>
+            @for(product <- products) {
+                <tr>
+                    <td>
+                    @product.id
+                    </td>
+                    <td>
+                    @product.name
+                    </td>
+                    <td>
+                    @product.description
+                    </td>
+                    <td>
+                    @product.price
+                    </td>
+                    <td>
+                        <a class="button" href=@controllers.shop.routes.ProductController.deleteProduct(product.id)>
+                            DELETE
+                        </a>
+                        <a class="button" href=@controllers.shop.routes.ProductController.updateProductForm(product.id)>
+                            EDIT
+                        </a>
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+}

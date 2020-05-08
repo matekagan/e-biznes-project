@@ -1,0 +1,46 @@
+@(employees: Seq[Employee])(implicit request: MessagesRequestHeader, flash: Flash)
+
+@main("Employees") {
+
+    <div>
+        @flash.get("success").getOrElse("")
+
+        <a class="button" href=@controllers.shop.routes.EmployeeController.addEmployeeForm()>Add Employee</a>
+
+        <table class="common-table">
+            <tr>
+                <th>ID</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Position</th>
+                <th>Actions</th>
+            </tr>
+            @for(employee <- employees) {
+                <tr>
+                    <td>
+                    @employee.id
+                    </td>
+                    <td>
+                    @employee.firstName
+                    </td>
+                    <td>
+                    @employee.lastName
+                    </td>
+                    <td>
+                    @employee.position
+                    </td>
+                    <td>
+                        <a class="button" href=@controllers.shop.routes.EmployeeController.deleteEmployee(employee.id)>
+                            DELETE
+                        </a>
+                        <a class="button" href=@controllers.shop.routes.EmployeeController.updateEmployeeForm(employee.id)>
+                            EDIT
+                        </a>
+                    </td>
+                </tr>
+            }
+        </table>
+
+    </div>
+
+}

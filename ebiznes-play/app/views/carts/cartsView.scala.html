@@ -1,0 +1,33 @@
+@(carts: Seq[Cart])(implicit request: MessagesRequestHeader, flash: Flash)
+
+@main("Carts") {
+    <div>
+        @flash.get("success").getOrElse("")
+        <table class="common-table">
+            <tr>
+                <th>ID</th>
+                <th>UUID</th>
+                <th>Created At</th>
+                <th>Actions</th>
+            </tr>
+            @for(cart <- carts) {
+                <tr>
+                    <td>
+                    @cart.id
+                    </td>
+                    <td>
+                    @cart.uuid
+                    </td>
+                    <td>
+                    @cart.createdAt
+                    </td>
+                    <td>
+                        <a class="button" href=@controllers.shop.routes.CartController.deleteCartByID(cart.id)>
+                            DELETE
+                        </a>
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+}

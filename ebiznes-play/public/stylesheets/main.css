@@ -1,0 +1,95 @@
+/*
+ * Copyright (C) 2009-2017 Lightbend Inc. <https://www.lightbend.com>
+ */
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-weight:inherit;font-style:inherit;font-size:100%;font-family:inherit;}
+
+html {
+    font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+}
+
+.root-container {
+    width: 100vw;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.centered-container {
+    margin-left: 200px;
+    width: 70vw;
+    background-color: aliceblue;
+    padding: 50px;
+    height: 85vh;
+    overflow: auto;
+    display: flex;
+    justify-content: center;
+}
+
+.common-table {
+    width: 65vw;
+}
+
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+    padding: 5px;
+}
+
+.button {
+    margin: 5px 5px;
+    padding: 5px 10px;
+    background-color: #0d3349;
+    border: none;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    border-radius: 5px;
+}
+
+.button.button-home {
+    background-color: #710909;
+    margin-bottom: 20px;
+}
+
+.menu {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.sidebar {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    width: 200px;
+    height: 100vh;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+}
+
+.sidebar li a {
+    width: 150px;
+}
+
+form {
+    width: 30vw;
+    background-color: whitesmoke;
+    padding: 30px;
+    border-radius: 10px;
+}
+
+dl {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+dl dt {
+    width: 100px;
+}
+
+dl dd:last-child {
+    width: 50px;
+}
