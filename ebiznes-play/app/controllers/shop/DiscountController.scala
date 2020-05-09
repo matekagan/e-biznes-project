@@ -27,32 +27,26 @@ class DiscountController @Inject()(discountRepository: DiscountRepository, produ
   }
 
   def createDiscountOrUpdate = Action.async { implicit request =>
-    var products: Seq[Product] = Seq[Product]()
-    productRepository.list().onComplete {
-      case Success(cat) => products = cat
-      case Failure(_) => print("fail")
+    productRepository.list() flatMap { products =>
+      discountForm.bindFromRequest().fold(
+        error => Future.successful(BadRequest(views.html.discounts.createDiscount(error, products))),
+        discount => discountRepository.createOrUpdate(discount.product, discount.discount).map { _ =>
+          Redirect(routes.DiscountController.viewDiscounts()).flashing("success" -> "discount created or updated")
+        }
+      )
     }
 
-    discountForm.bindFromRequest().fold(
-      error => Future.successful(BadRequest(views.html.discounts.createDiscount(error, products))),
-      discount => discountRepository.createOrUpdate(discount.product, discount.discount).map { _ =>
-        Redirect(routes.DiscountController.viewDiscounts()).flashing("success" -> "discount created or updated")
-      }
-    )
   }
 
   def updateDiscountForm(id: Int) = Action.async { implicit request =>
-    var products: Seq[Product] = Seq[Product]()
-    productRepository.list().onComplete {
-      case Success(cat) => products = cat
-      case Failure(_) => print("fail")
-    }
-    val discountOption = discountRepository.getByIDOption(id)
-    discountOption.map {
-      discount =>
-        discount.map(value => discountForm.fill(DiscountForm(value.id, value.discount)))
-          .map(form => Ok(views.html.discounts.updateDiscount(form)))
-          .getOrElse(Ok(views.html.discounts.createDiscount(discountForm, products)))
+    productRepository.list() flatMap { products =>
+      val discountOption = discountRepository.getByIDOption(id)
+      discountOption.map {
+        discount =>
+          discount.map(value => discountForm.fill(DiscountForm(value.id, value.discount)))
+            .map(form => Ok(views.html.discounts.updateDiscount(form)))
+            .getOrElse(Ok(views.html.discounts.createDiscount(discountForm, products)))
+      }
     }
   }
 

@@ -39,60 +39,47 @@ class ProductController @Inject()(productsRepo: ProductRepository, categoryRepo:
   }
 
   def createProductHandle: Action[AnyContent] = Action.async { implicit request: MessagesRequest[AnyContent] =>
-    var categ: Seq[Category] = Seq[Category]()
-    categoryRepo.list().onComplete {
-      case Success(cat) => categ = cat
-      case Failure(_) => print("fail")
-    }
-
-    newProductForm.bindFromRequest.fold(
-      errorForm => {
-        Future.successful(
-          BadRequest(views.html.products.productForm(errorForm, categ))
-        )
-      },
-      product => {
-        productsRepo.create(product.name, product.description, product.category, product.price).map { _ =>
-          Redirect(routes.ProductController.viewProducts()).flashing("success" -> "product created")
+    categoryRepo.list() flatMap { categ =>
+      newProductForm.bindFromRequest.fold(
+        errorForm => {
+          Future.successful(
+            BadRequest(views.html.products.productForm(errorForm, categ))
+          )
+        },
+        product => {
+          productsRepo.create(product.name, product.description, product.category, product.price).map { _ =>
+            Redirect(routes.ProductController.viewProducts()).flashing("success" -> "product created")
+          }
         }
-      }
-    )
-
+      )
+    }
   }
 
   def updateProductForm(id: Int): Action[AnyContent] = Action.async { implicit request: MessagesRequest[AnyContent] =>
-    var categ: Seq[Category] = Seq[Category]()
-    categoryRepo.list().onComplete {
-      case Success(cat) => categ = cat
-      case Failure(_) => print("fail")
+    categoryRepo.list() flatMap { categ =>
+      val product = productsRepo.getById(id)
+      product.map(product => {
+        val prodForm = updatingProductForm.fill(UpdateProductForm(product.id, product.name, product.description, product.category, product.price))
+        Ok(views.html.products.productUpdate(prodForm, categ))
+      })
     }
-
-    val produkt = productsRepo.getById(id)
-    produkt.map(product => {
-      val prodForm = updatingProductForm.fill(UpdateProductForm(product.id, product.name, product.description, product.category, product.price))
-      Ok(views.html.products.productUpdate(prodForm, categ))
-    })
   }
 
   def updateProductHandle = Action.async { implicit request =>
-    var categ: Seq[Category] = Seq[Category]()
-    categoryRepo.list().onComplete {
-      case Success(cat) => categ = cat
-      case Failure(_) => print("fail")
-    }
-
-    updatingProductForm.bindFromRequest.fold(
-      errorForm => {
-        Future.successful(
-          BadRequest(views.html.products.productUpdate(errorForm, categ))
-        )
-      },
-      product => {
-        productsRepo.update(product.id, Product(product.id, product.name, product.description, product.category, product.price)).map { _ =>
-          Redirect(routes.ProductController.viewProducts()).flashing("success" -> "product updated")
+    categoryRepo.list() flatMap { categ =>
+      updatingProductForm.bindFromRequest.fold(
+        errorForm => {
+          Future.successful(
+            BadRequest(views.html.products.productUpdate(errorForm, categ))
+          )
+        },
+        product => {
+          productsRepo.update(product.id, Product(product.id, product.name, product.description, product.category, product.price)).map { _ =>
+            Redirect(routes.ProductController.viewProducts()).flashing("success" -> "product updated")
+          }
         }
-      }
-    )
+      )
+    }
   }
 
   def deleteProduct(id: Int) = Action.async { implicit request =>
