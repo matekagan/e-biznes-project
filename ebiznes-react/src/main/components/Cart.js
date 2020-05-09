@@ -111,7 +111,7 @@ export default ({ cart, incrementAmount, remove, saveCart, loadCart, submitOder 
                             <OrderForm
                                 visible={formVisible}
                                 hide={() => setFormVisivility(false)}
-                                submit={orderData => submitOder(orderData, () => setFormVisivility(false))}
+                                submit={submitOder}
                             />
                         </div>
                     </div>

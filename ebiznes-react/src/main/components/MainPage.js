@@ -3,7 +3,7 @@ import { Layout, Menu, Empty, Icon, message, notification } from 'antd';
 import Categories from './Categories';
 import Products from './Products';
 import Cart from './Cart';
-import { ajaxPost, ajaxGet } from '../utils/ajax';
+import { ajaxPost, ajaxGet, ajaxDelete } from '../utils/ajax';
 import ProductView from './ProductView';
 import Adverts from './Adverts';
 
@@ -136,19 +136,22 @@ export default class App extends React.Component {
     }
 
     afterOrderSubmit = ({ status, id }, callback) => {
+        if (callback) {
+            callback({ status, id });
+        }
         if (status === 'FAILED') {
             notification.error({
                 message: 'Failed do submit Order'
             });
         } else if (status === 'CREATED' && id) {
             window.localStorage.removeItem(CART_ID);
-            if (callback) {
-                callback();
-            }
             notification.success({
                 message: 'Order Saved',
                 description: `You order has been created, details will be sent to your e-mail,\n your order id = ${id}`
             });
+            if (this.state.cartUUID) {
+                ajaxDelete(`carts/${this.state.cartUUID}/delete`);
+            }
             this.setState(state => ({ ...state, cart: {}, cartUUID: null }));
         }
     }

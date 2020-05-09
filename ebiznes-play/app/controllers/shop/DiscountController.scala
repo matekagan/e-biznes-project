@@ -1,7 +1,6 @@
 package controllers.shop
 
 import javax.inject.{Inject, Singleton}
-import models.Product
 import play.api.data.Form
 import play.api.data.Forms._
 import play.api.libs.json.Json
@@ -9,7 +8,6 @@ import play.api.mvc.{MessagesAbstractController, MessagesControllerComponents}
 import repositories.{DiscountRepository, ProductRepository}
 
 import scala.concurrent.{ExecutionContext, Future}
-import scala.util.{Failure, Success}
 
 @Singleton
 class DiscountController @Inject()(discountRepository: DiscountRepository, productRepository: ProductRepository, cc: MessagesControllerComponents)(implicit ec: ExecutionContext) extends MessagesAbstractController(cc) {

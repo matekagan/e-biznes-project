@@ -19,6 +19,8 @@ export const ajaxGet = url => createRequest(url, 'GET');
 
 export const ajaxPost = (url, data) => createRequest(url, 'POST', data);
 
+export const ajaxDelete = (url, data) => createRequest(url, 'DLETE', data);
+
 export const QUERY_STATUS = {
     FINISHED: 'finished',
     IN_PROGRESS: 'in progress',

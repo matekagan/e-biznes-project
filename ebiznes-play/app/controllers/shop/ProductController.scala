@@ -1,7 +1,7 @@
 package controllers.shop
 
 import javax.inject.{Inject, Singleton}
-import models.{Category, Product}
+import models.Product
 import play.api.data.Form
 import play.api.data.Forms._
 import play.api.libs.json.Json
@@ -9,7 +9,6 @@ import play.api.mvc._
 import repositories.{CategoryRepository, ProductRepository}
 
 import scala.concurrent.{ExecutionContext, Future}
-import scala.util.{Failure, Success}
 
 @Singleton
 class ProductController @Inject()(productsRepo: ProductRepository, categoryRepo: CategoryRepository, cc: MessagesControllerComponents)(implicit ec: ExecutionContext) extends MessagesAbstractController(cc) {
