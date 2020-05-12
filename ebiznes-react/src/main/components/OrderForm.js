@@ -123,6 +123,4 @@ class OrderForm extends React.Component {
     }
 }
 
-const WrappedOrderForm = Form.create({ name: 'register' })(OrderForm);
-
-export default WrappedOrderForm;
+export default Form.create({ name: 'register' })(OrderForm);

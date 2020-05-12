@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Table, Icon, Button, Layout, Input } from 'antd';
 import { parsePrice } from '../utils/numberUtils';
 import OrderForm from './OrderForm';
-import { ajaxPost } from '../utils/ajax';
 
 const { Header, Content } = Layout;
 const { Search } = Input;

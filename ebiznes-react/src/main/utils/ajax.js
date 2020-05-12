@@ -1,5 +1,5 @@
 
-const createRequest = (url, method = 'GET', data) => {
+const createRequest = (url, method = 'GET', data = null) => {
     const headers = {};
     if (data) {
         headers['Content-Type'] = 'application/json';

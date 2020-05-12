@@ -8,10 +8,11 @@
         <a class="button" href=@controllers.shop.routes.CategoriesController.createCategoryForm()>Create Category</a>
 
         <table class="common-table">
+            <caption>Categories</caption>
             <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Actions</th>
+                <th  scope="col">ID</th>
+                <th  scope="col">Name</th>
+                <th  scope="col">Actions</th>
             </tr>
             @for(category <- categories) {
                 <tr>

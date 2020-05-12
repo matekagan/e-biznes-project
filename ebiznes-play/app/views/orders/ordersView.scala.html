@@ -5,17 +5,18 @@
     <div>
         @flash.get("success").getOrElse("")
         <table class="common-table">
+            <caption>Orders</caption>
             <tr>
-                <th>ID</th>
-                <th>Created Date</th>
-                <th>Value</th>
-                <th>Status</th>
-                <th>Home Devilery</th>
-                <th>User</th>
-                <th>Address</th>
-                <th>E mail</th>
-                <th>Phone</th>
-                <th>Actions</th>
+                <th  scope="col">ID</th>
+                <th  scope="col">Created Date</th>
+                <th  scope="col">Value</th>
+                <th  scope="col">Status</th>
+                <th  scope="col">Home Devilery</th>
+                <th  scope="col">User</th>
+                <th  scope="col">Address</th>
+                <th  scope="col">E mail</th>
+                <th  scope="col">Phone</th>
+                <th  scope="col">Actions</th>
             </tr>
             @for(order <- orders) {
                 <tr>

@@ -10,7 +10,7 @@ const { Content, Header } = Layout;
 
 const COLS_NUM = 4;
 
-export default class Prodcts extends React.Component {
+export default class Products extends React.Component {
     constructor(props) {
         super(props);
         this.state = {

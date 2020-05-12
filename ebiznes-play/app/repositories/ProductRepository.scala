@@ -26,7 +26,7 @@ class ProductRepository @Inject()(val dbConfigProvider: DatabaseConfigProvider, 
 
     def price = column[Int]("price")
 
-    def category_fk = foreignKey("category_fk", category, cat)(_.id)
+    def categoryFK = foreignKey("category_fk", category, cat)(_.id)
 
     def * = (id, name, description, category, price) <> ((Product.apply _).tupled, Product.unapply)
 

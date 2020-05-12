@@ -26,7 +26,7 @@ const prepareCartRequest = cart => Object.values(cart)
     .map(({ product: { id }, amount }) => ({ productID: id, amount }));
 
 
-export default class App extends React.Component {
+export default class MainPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {

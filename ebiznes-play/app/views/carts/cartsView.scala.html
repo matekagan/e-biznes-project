@@ -3,12 +3,13 @@
 @main("Carts") {
     <div>
         @flash.get("success").getOrElse("")
-        <table class="common-table">
+        <table class="common-table">]
+            <caption>Carts</caption>
             <tr>
-                <th>ID</th>
-                <th>UUID</th>
-                <th>Created At</th>
-                <th>Actions</th>
+                <th  scope="col">ID</th>
+                <th  scope="col">UUID</th>
+                <th  scope="col">Created At</th>
+                <th  scope="col">Actions</th>
             </tr>
             @for(cart <- carts) {
                 <tr>

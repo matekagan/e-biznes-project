@@ -8,10 +8,11 @@
         <a class="button" href=@controllers.shop.routes.DiscountController.createDiscountForm()>Create Discount</a>
 
         <table class="common-table">
+            <caption>Discounts</caption>
             <tr>
-                <th>Product ID</th>
-                <th>Discount</th>
-                <th>Actions</th>
+                <th  scope="col">Product ID</th>
+                <th  scope="col">Discount</th>
+                <th  scope="col">Actions</th>
             </tr>
             @for(discount <- discounts) {
                 <tr>

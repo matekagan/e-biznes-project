@@ -8,12 +8,13 @@
             <a class="button" href=@controllers.shop.routes.ProductController.createProductForm()>Create Product</a>
         </div>
         <table class="common-table">
+            <caption>Products</caption>
             <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Description</th>
-                <th>Price</th>
-                <th>Actions</th>
+                <th  scope="col">ID</th>
+                <th  scope="col">Name</th>
+                <th  scope="col">Description</th>
+                <th  scope="col">Price</th>
+                <th  scope="col">Actions</th>
             </tr>
             @for(product <- products) {
                 <tr>

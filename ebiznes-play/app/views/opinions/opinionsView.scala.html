@@ -6,13 +6,14 @@
     @flash.get("success").getOrElse("")
 
     <table class="common-table">
+        <caption>Opinions</caption>
         <tr>
-            <th>ID</th>
-            <th>Product</th>
-            <th>Rating</th>
-            <th>Comment</th>
-            <th>Date</th>
-            <th>Actions</th>
+            <th  scope="col">ID</th>
+            <th  scope="col">Product</th>
+            <th  scope="col">Rating</th>
+            <th  scope="col">Comment</th>
+            <th  scope="col">Date</th>
+            <th  scope="col">Actions</th>
         </tr>
         @for(opinion <- opinions) {
             <tr>

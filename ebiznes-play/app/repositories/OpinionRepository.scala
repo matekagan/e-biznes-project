@@ -63,8 +63,8 @@ class OpinionRepository @Inject()(productRepository: ProductRepository, dbConfig
 
   def delete(id: Int): Future[Unit] = db.run(opinion.filter(_.id === id).delete).map(_ => ())
 
-  def update(id: Int, new_opinion: Opinion): Future[Unit] = {
-    val opinionToUpdate = new_opinion.copy(id)
+  def update(id: Int, newOpinion: Opinion): Future[Unit] = {
+    val opinionToUpdate = newOpinion.copy(id)
     db.run(opinion.filter(_.id === id).update(opinionToUpdate)).map(_ => ())
   }
 

@@ -4,11 +4,12 @@
     <div>
         @flash.get("success").getOrElse("")
         <table class="common-table">
+            <caption>Returns</caption>
             <tr>
-                <th>Order</th>
-                <th>Status</th>
-                <th>Reason</th>
-                <th>Actions</th>
+                <th  scope="col">Order</th>
+                <th  scope="col">Status</th>
+                <th  scope="col">Reason</th>
+                <th  scope="col">Actions</th>
             </tr>
             @for(returnObj <- returnObjs) {
                 <tr>

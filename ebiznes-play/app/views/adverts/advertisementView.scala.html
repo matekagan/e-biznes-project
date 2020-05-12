@@ -8,11 +8,12 @@
         <a class="button" href=@controllers.shop.routes.AdvertisementController.createAdForm()>Create Advert</a>
 
         <table class="common-table">
+            <caption>Advertisemsents</caption>
             <tr>
-                <th>ID</th>
-                <th>Text</th>
-                <th>Link</th>
-                <th>Actions</th>
+                <th  scope="col">ID</th>
+                <th  scope="col">Text</th>
+                <th  scope="col">Link</th>
+                <th  scope="col">Actions</th>
             </tr>
             @for(advert <- adverts) {
                 <tr>

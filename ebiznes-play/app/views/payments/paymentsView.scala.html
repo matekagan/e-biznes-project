@@ -4,13 +4,14 @@
     <div>
         @flash.get("success").getOrElse("")
         <table class="common-table">
+            <caption>Payments</caption>
             <tr>
-                <th>ID</th>
-                <th>Order</th>
-                <th>Value</th>
-                <th>Status</th>
-                <th>CreatedTime</th>
-                <th>Actions</th>
+                <th  scope="col">ID</th>
+                <th  scope="col">Order</th>
+                <th  scope="col">Value</th>
+                <th  scope="col">Status</th>
+                <th  scope="col">CreatedTime</th>
+                <th  scope="col">Actions</th>
             </tr>
             @for(payment <- payments) {
                 <tr>
