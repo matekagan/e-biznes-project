@@ -1,6 +1,10 @@
 
 # --- !Ups
 
+
+INSERT INTO users(provider, identifier, email, first_name, last_name) VALUES ('credentials', 'admin@admin.pl', 'admin@admin.pl', 'admin', 'admin');
+INSERT INTO password_info(provider, identifier, hasher, password) VALUES ('credentials', 'admin@admin.pl', 'bcrypt-sha256', '$2a$10$hjEzpgtZxzS2sPfAiI884OSiVe2tIhmSwOTr30g2Ko2wtT8iiY0l.');
+
 INSERT INTO category(name) VALUES('Pens');
 INSERT INTO category(name) VALUES('Notebooks');
 INSERT INTO category(name) VALUES('Pencils');
@@ -32,12 +36,12 @@ INSERT INTO product(name, description, category, price) VALUES ('Pencil B3', 'St
 
 INSERT INTO discounts(id, discount) SELECT id, 30 as discount from product where category = 3;
 
-INSERT INTO opinions(product, rating, comment, timestamp) VALUES (1, 3, 'spoko', strftime('%s','now'));
-INSERT INTO opinions(product, rating, comment, timestamp) VALUES (5, 1, 'słaby', strftime('%s','now'));
-INSERT INTO opinions(product, rating, comment, timestamp) VALUES (8, 5, 'super produkt, polecam', strftime('%s','now'));
-INSERT INTO opinions(product, rating, comment, timestamp) VALUES (9, 2, '2/10, nie polecam', strftime('%s','now'));
-INSERT INTO opinions(product, rating, comment, timestamp) VALUES (3, 5, 'fantastyczny produck', strftime('%s','now'));
-INSERT INTO opinions(product, rating, comment, timestamp) VALUES (17, 3, 'całkiem spoko', strftime('%s','now'));
+INSERT INTO opinions(product, rating, comment, timestamp, user) VALUES (1, 3, 'spoko', strftime('%s','now'), 1);
+INSERT INTO opinions(product, rating, comment, timestamp, user) VALUES (5, 1, 'słaby', strftime('%s','now'), 1);
+INSERT INTO opinions(product, rating, comment, timestamp, user) VALUES (8, 5, 'super produkt, polecam', strftime('%s','now'), 1);
+INSERT INTO opinions(product, rating, comment, timestamp, user) VALUES (9, 2, '2/10, nie polecam', strftime('%s','now'), 1);
+INSERT INTO opinions(product, rating, comment, timestamp, user) VALUES (3, 5, 'fantastyczny produck', strftime('%s','now'), 1);
+INSERT INTO opinions(product, rating, comment, timestamp, user) VALUES (17, 3, 'całkiem spoko', strftime('%s','now'), 1);
 
 INSERT INTO advertisements(text, link) VALUES ('Click here for memes !!!', 'https://www.reddit.com/r/ProgrammerHumor/');
 INSERT INTO advertisements(text, link) VALUES ('Click for more memes', 'https://www.reddit.com/r/memes/');
@@ -51,3 +55,5 @@ DELETE FROM category WHERE id is not null ;
 DELETE FROM product WHERE id is not null ;
 DELETE FROM opinions WHERE id is not null ;
 DELETE FROM advertisements WHERE id is not null ;
+DELETE FROM users;
+DELETE FROM password_info;

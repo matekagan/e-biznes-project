@@ -3,7 +3,7 @@
 
 @import helper._
 
-@main("Update Category") {
+@adminView("Update Category") {
     @flash.get("success").getOrElse("")
 
     @form(controllers.shop.routes.CategoriesController.updateCategoryHanlde()) {

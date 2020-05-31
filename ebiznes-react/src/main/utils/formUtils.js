@@ -1,31 +1,9 @@
-export const EMAIL_CONFIG = {
-    rules: [
-        {
-            type: 'email',
-            message: 'The input is not valid E-mail!'
-        },
-        {
-            required: true,
-            message: 'Please input your E-mail!'
-        }
-    ]
-};
 
 export const PHONE_CONFIG = {
     rules: [
         {
             required: true,
             message: 'Please input your phone number!'
-        }
-    ]
-};
-
-export const NAME_CONFIG = {
-    rules: [
-        {
-            required: true,
-            message: 'Please input your name!',
-            whitespace: true
         }
     ]
 };
@@ -40,6 +18,20 @@ export const ADDRESS_CONFIG = {
     ]
 };
 
-export const DELIVERY_CHECKBOX_CONFIG = {
-    valuePropName: 'checked'
+export const EMAIL_CONFIG = {
+    rules: [
+        {
+            required: true,
+            message: 'Please input your email!'
+        }
+    ]
+};
+
+export const PASSWORD_CONFIG = {
+    rules: [
+        {
+            required: true,
+            message: 'Please input your Password!'
+        }
+    ]
 };

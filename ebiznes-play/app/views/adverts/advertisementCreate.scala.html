@@ -4,7 +4,7 @@
 
 @import helper._
 
-@main("Create Add") {
+@adminView("Create Add") {
     @flash.get("success").getOrElse("")
 
     @form(controllers.shop.routes.AdvertisementController.createAd()) {

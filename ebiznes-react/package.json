@@ -19,6 +19,7 @@
         "babel-preset-env": "^1.0.0",
         "babel-preset-react": "^6.0.0",
         "css-loader": "^0.28.4",
+        "js-cookie": "^2.2.1",
         "live-server": "^1.2.0",
         "node-sass": "^4.5.3",
         "normalize.css": "^7.0.0",

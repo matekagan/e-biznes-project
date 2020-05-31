@@ -1,8 +1,9 @@
 # --- !Ups
 
-CREATE TABLE category (
- "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
- "name" VARCHAR NOT NULL
+CREATE TABLE category
+(
+    "id"   INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "name" VARCHAR NOT NULL
 );
 
 CREATE TABLE product
@@ -17,33 +18,33 @@ CREATE TABLE product
 
 create table opinions
 (
-    id      INTEGER PRIMARY KEY AUTOINCREMENT,
-    product INTEGER NOT NULL,
-    rating  INTEGER NOT NULL,
-    comment VARCHAR,
-    timestamp TIMESTAMP NOT NULL ,
-    CONSTRAINT product_fk FOREIGN KEY (product) references product (id) on delete cascade
+    id        INTEGER PRIMARY KEY AUTOINCREMENT,
+    product   INTEGER   NOT NULL,
+    rating    INTEGER   NOT NULL,
+    comment   VARCHAR,
+    timestamp TIMESTAMP NOT NULL,
+    user      INTEGER   NOT NULL,
+    CONSTRAINT product_fk FOREIGN KEY (product) references product (id) on delete cascade,
+    CONSTRAINT user_fk FOREIGN KEY (user) references users (id) on delete cascade
 );
 
 create TABLE discounts
 (
-    id   INTEGER NOT NULL PRIMARY KEY,
+    id       INTEGER NOT NULL PRIMARY KEY,
     discount INTEGER NOT NULL,
-    constraint product_fk foreign key (id) references product(id) on delete cascade
+    constraint product_fk foreign key (id) references product (id) on delete cascade
 );
 
 create TABLE orders
 (
-    id          INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-    created_date TIMESTAMP NOT NULL ,
-    delivery    BOOLEAN,
-    address     VARCHAR NOT NULL ,
-    value       INTEGER NOT NULL ,
-    status      VARCHAR NOT NULL ,
-    first_name  VARCHAR NOT NULL ,
-    last_name   VARCHAR NOT NULL ,
-    e_mail      VARCHAR NOT NULL ,
-    phone       VARCHAR NOT NULL
+    id           INTEGER   NOT NULL PRIMARY KEY AUTOINCREMENT,
+    created_date TIMESTAMP NOT NULL,
+    address      VARCHAR   NOT NULL,
+    value        INTEGER   NOT NULL,
+    status       VARCHAR   NOT NULL,
+    phone        VARCHAR   NOT NULL,
+    user_id      VARCHAR   NOT NULL,
+    constraint user_fk foreign key (user_id) references users (id)
 );
 
 create TABLE orders_products
@@ -58,35 +59,35 @@ create TABLE orders_products
 
 create table employees
 (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    id         INTEGER PRIMARY KEY AUTOINCREMENT,
     first_name VARCHAR NOT NULL,
-    last_name VARCHAR NOT NULL,
-    position VARCHAR NOT NULL
+    last_name  VARCHAR NOT NULL,
+    position   VARCHAR NOT NULL
 );
 
 create table payments
 (
-    id INTEGER PRIMARY KEY,
-    order_id INTEGER NOT NULL,
-    value INTEGER NOT NULL,
+    id           INTEGER PRIMARY KEY,
+    order_id     INTEGER NOT NULL,
+    value        INTEGER NOT NULL,
     created_time TIMESTAMP,
-    status VARCHAR,
-    constraint order_fk foreign key (order_id) references orders(id) on delete cascade
+    status       VARCHAR,
+    constraint order_fk foreign key (order_id) references orders (id) on delete cascade
 );
 
 create table returns
 (
-    id INTEGER PRIMARY KEY,
+    id     INTEGER PRIMARY KEY,
     status VARCHAR NOT NULL,
     reason VARCHAR,
-    constraint order_fk foreign key (id) references orders(id) on delete cascade
+    constraint order_fk foreign key (id) references orders (id) on delete cascade
 );
 
 create TABLE carts
 (
-    id          INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-    uuid        VARCHAR NOT NULL,
-    timeStamp   TIMESTAMP NOT NULL
+    id        INTEGER   NOT NULL PRIMARY KEY AUTOINCREMENT,
+    uuid      VARCHAR   NOT NULL,
+    timeStamp TIMESTAMP NOT NULL
 );
 
 create TABLE cart_products
@@ -101,12 +102,51 @@ create TABLE cart_products
 
 create TABLE advertisements
 (
-    id          INTEGER PRIMARY KEY AUTOINCREMENT,
-    text        VARCHAR NOT NULL,
-    link        VARCHAR NOT NULL
+    id   INTEGER PRIMARY KEY AUTOINCREMENT,
+    text VARCHAR NOT NULL,
+    link VARCHAR NOT NULL
 );
 
-PRAGMA foreign_keys=ON;
+create table users
+(
+    id         INTEGER PRIMARY KEY AUTOINCREMENT,
+    provider   VARCHAR NOT NULL,
+    identifier VARCHAR NOT NULL,
+    email      VARCHAR NOT NULL,
+    first_name VARCHAR,
+    last_name  VARCHAR
+);
+
+create table tokens
+(
+    id     INTEGER PRIMARY KEY AUTOINCREMENT,
+    userID INTEGER NOT NULL,
+    CONSTRAINT user_fk foreign key (userID) references users (id)
+);
+
+create table password_info
+(
+    provider   VARCHAR NOT NULL,
+    identifier VARCHAR NOT NULL,
+    hasher     VARCHAR NOT NULL,
+    password   VARCHAR NOT NULL,
+    salt       VARCHAR,
+    CONSTRAINT pk_password_info primary key (provider, identifier)
+
+);
+
+create table oauth2_info
+(
+    provider      VARCHAR NOT NULL,
+    identifier    VARCHAR NOT NULL,
+    access_token  VARCHAR NOT NULL,
+    token_type    VARCHAR,
+    expires_in    INTEGER,
+    refresh_token VARCHAR,
+    CONSTRAINT pk_password_info primary key (provider, identifier)
+);
+
+PRAGMA foreign_keys= ON;
 
 # --- !Downs
 
@@ -122,3 +162,7 @@ DROP TABLE returns;
 DROP TABLE carts;
 DROP TABLE cart_products;
 DROP TABLE advertisements;
+DROP TABLE tokens;
+DROP TABLE users;
+DROP TABLE password_info;
+drop table oauth2_info;

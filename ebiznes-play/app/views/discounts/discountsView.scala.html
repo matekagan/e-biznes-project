@@ -1,6 +1,6 @@
 @(discounts: Seq[Discount])(implicit request: MessagesRequestHeader, flash: Flash)
 
-@main("Discounts") {
+@adminView("Discounts") {
 
     <div>
         @flash.get("success").getOrElse("")

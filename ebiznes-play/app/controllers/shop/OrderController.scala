@@ -1,43 +1,44 @@
 package controllers.shop
 
-import java.sql.Timestamp
-
 import api.{CreateResult, SimpleOrderRepresentation}
+import com.mohiva.play.silhouette.api.actions.SecuredRequest
+import controllers.auth.{SilhouetteController, SilhouetteControllerComponents}
 import javax.inject.{Inject, Singleton}
 import models.Order
 import play.api.data.Form
 import play.api.data.Forms._
 import play.api.libs.json.Json
-import play.api.mvc.{MessagesAbstractController, MessagesControllerComponents}
-import repositories.{DiscountRepository, OrdersRepository, ProductRepository}
+import play.api.mvc.AnyContent
+import repositories.{OrdersRepository, ProductRepository}
 import utils.TimeUtils
 
 import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
-class OrderController @Inject()(ordersRepository: OrdersRepository, productRepository: ProductRepository, cc: MessagesControllerComponents)(implicit ec: ExecutionContext) extends MessagesAbstractController(cc) {
+class OrderController @Inject()(ordersRepository: OrdersRepository, productRepository: ProductRepository, cc: SilhouetteControllerComponents)(implicit ec: ExecutionContext) extends SilhouetteController(cc) {
 
   def updatingOrderForm: Form[OrderUpdateForm] = Form {
     mapping(
       "id" -> number,
       "createDate" -> nonEmptyText,
-      "homeDelivery" -> boolean,
       "address" -> nonEmptyText,
       "value" -> number,
       "status" -> nonEmptyText,
-      "firstName" -> nonEmptyText,
-      "lastName" -> nonEmptyText,
-      "email" -> nonEmptyText,
-      "phone" -> nonEmptyText
+      "phone" -> nonEmptyText,
+      "userID" -> number
     )(OrderUpdateForm.apply)(OrderUpdateForm.unapply)
   }
 
-  def createOrder = Action.async { implicit request =>
+  def createOrder = SecuredAction.async { implicit request: SecuredRequest[EnvType, AnyContent] =>
     val orderRepresentationOption = request.body.asJson.map(Json.fromJson[SimpleOrderRepresentation](_))
+    val user = getAuthorizedUser(request)
     orderRepresentationOption.map(jsVal => jsVal.fold(
       _ => Future(BadRequest(Json.toJson(CreateResult()))),
       order => calculateOrderValue(order).flatMap(
-        orderValue => ordersRepository.create(order, orderValue).map(uuid => Ok(Json.toJson(CreateResult(uuid.toString))))
+        orderValue => user.flatMap(
+          user => ordersRepository.create(order, orderValue, user.id)
+            .map(uuid => Ok(Json.toJson(CreateResult(uuid.toString))))
+        )
       )
     )
     ).getOrElse(Future(BadRequest(Json.toJson(CreateResult()))))
@@ -93,14 +94,14 @@ class OrderController @Inject()(ordersRepository: OrdersRepository, productRepos
   }
 }
 
-case class OrderUpdateForm(id: Int, createDate: String, homeDelivery: Boolean, address: String, value: Int, status: String, firstName: String, lastName: String, email: String, phone: String) {
-  def getOrder = Order(id, TimeUtils.parseDate(createDate), homeDelivery, address, value, status, firstName, lastName, email, phone)
+case class OrderUpdateForm(id: Int, createDate: String, address: String, value: Int, status: String, phone: String, userID: Int) {
+  def getOrder = Order(id, TimeUtils.parseDate(createDate), address, value, status, phone, userID)
 }
 
 object OrderUpdateForm {
-  def apply(id: Int, createDate: String, homeDelivery: Boolean, address: String, value: Int, status: String, firstName: String, lastName: String, email: String, phone: String):
-  OrderUpdateForm = new OrderUpdateForm(id, createDate, homeDelivery, address, value, status, firstName, lastName, email, phone)
+  def apply(id: Int, createDate: String, address: String, value: Int, status: String, phone: String, userID: Int):
+  OrderUpdateForm = new OrderUpdateForm(id, createDate, address, value, status, phone, userID)
 
   def apply(order: Order): OrderUpdateForm =
-    new OrderUpdateForm(order.id, TimeUtils.formatDate(order.createDate), order.homeDelivery, order.address, order.value, order.status, order.firstName, order.lastName, order.email, order.phone)
+    new OrderUpdateForm(order.id, TimeUtils.formatDate(order.createDate), order.address, order.value, order.status, order.phone, order.userID)
 }

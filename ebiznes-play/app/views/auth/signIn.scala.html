@@ -1,0 +1,24 @@
+@import play.api.data.Form
+@import play.api.mvc.RequestHeader
+
+@import forms.SignInForm.Data
+
+@import views.html.helper.form
+@import views.html.inputs.simpleInput
+
+@import com.mohiva.play.silhouette.impl.providers.SocialProviderRegistry
+@(signUpForm: Form[Data])(implicit request: RequestHeader, flash: Flash)
+
+@main("Sign Up") {
+    <div class="sign-in-container">
+        @form(controllers.auth.routes.SignInController.submit()) {
+            @helper.CSRF.formField
+            @simpleInput("email", "Email", true, None, Option("text"))
+            @simpleInput("password", "Password", true, None, Option("password"))
+
+            <div class="buttons">
+                <input type="submit" value="Sign In"/>
+            </div>
+        }
+    </div>
+}

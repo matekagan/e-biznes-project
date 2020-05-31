@@ -1,0 +1,16 @@
+.auth-providers-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 30vh;   
+}
+
+.provider {
+    margin: 20px;
+    font-weight: 500;
+    a {
+        padding: 15px;
+        font-size: $m-size;
+    }
+}

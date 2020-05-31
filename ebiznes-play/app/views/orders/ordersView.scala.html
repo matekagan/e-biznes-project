@@ -1,6 +1,6 @@
 @(orders: Seq[Order])(implicit request: MessagesRequestHeader, flash: Flash)
 
-@main("Orders") {
+@adminView("Orders") {
 
     <div>
         @flash.get("success").getOrElse("")
@@ -11,10 +11,7 @@
                 <th  scope="col">Created Date</th>
                 <th  scope="col">Value</th>
                 <th  scope="col">Status</th>
-                <th  scope="col">Home Devilery</th>
-                <th  scope="col">User</th>
                 <th  scope="col">Address</th>
-                <th  scope="col">E mail</th>
                 <th  scope="col">Phone</th>
                 <th  scope="col">Actions</th>
             </tr>
@@ -24,10 +21,7 @@
                     <td>@order.createDate</td>
                     <td>@(order.value / 100.0)</td>
                     <td>@order.status</td>
-                    <td>@order.homeDelivery</td>
-                    <td>@("%s %s".format(order.firstName, order.lastName))</td>
                     <td>@order.address</td>
-                    <td>@order.email</td>
                     <td>@order.phone</td>
                     <td>
                         <a class="button" href=@controllers.shop.routes.OrderController.deleteOrder(order.id)>

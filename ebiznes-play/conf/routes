@@ -5,12 +5,22 @@
 
 # An example controller showing a sample home page
 GET           /                                    controllers.HomeController.index
+GET           /admin-panel                         controllers.HomeController.adminPanel
 
 # Map static resources from the /public folder to the /assets URL path
 GET           /assets/*file                        controllers.Assets.versioned(path="/public", file: Asset)
 
+
+GET           /sign-up                             controllers.auth.SignUpController.view
+POST          /sign-up                             controllers.auth.SignUpController.submit
+
+GET           /sign-in                             controllers.auth.SignInController.view
+POST          /sign-in                             controllers.auth.SignInController.submit
+
+GET           /authenticate/:provider              controllers.auth.SocialAuthController.authenticate(provider)
+GET           /sign-out                            controllers.HomeController.signOut()
+
 POST          /cart/create                         controllers.shop.CartController.createCart
-PUT           /cart/update/:id                     controllers.shop.CartController.handleUpdate(id:Int)
 DELETE        /cart/:uuid/delete                   controllers.shop.CartController.deleteCart(uuid:String)
 GET           /cart/:id/delete-by-id               controllers.shop.CartController.deleteCartByID(id:Int)
 GET           /cart/:uuid/products                 controllers.shop.CartController.getProducts(uuid:String)
@@ -57,7 +67,7 @@ GET           /adverts/:id/delete                  controllers.shop.Advertisemen
 GET           /adverts/list                        controllers.shop.AdvertisementController.listAds
 GET           /adverts/:id/get                     controllers.shop.AdvertisementController.getAd(id:Int)
 GET           /adverts/view                        controllers.shop.AdvertisementController.viewAds()
-GET           /adverts/random                        controllers.shop.AdvertisementController.getRandomAds(amount: Option[Int])
+GET           /adverts/random                      controllers.shop.AdvertisementController.getRandomAds(amount: Option[Int])
 
 POST          /orders/create                       controllers.shop.OrderController.createOrder
 GET           /orders/:id/update-form              controllers.shop.OrderController.updateOrderForm(id:Int)

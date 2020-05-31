@@ -80,7 +80,7 @@ class AdvertisementController @Inject()(advertisementRepository: AdvertisementRe
   }
 
   def getRandomAds(amountOption: Option[Int]) = Action.async {
-    val amount = amountOption.getOrElse(5)
+    val amount = amountOption.getOrElse(3)
     advertisementRepository.list()
       .map(list => RandomSelector.selectRandom(amount, list))
       .map(list => Ok(Json.toJson(list)))

@@ -22,23 +22,17 @@ class OrdersRepository @Inject()(val productRepository: ProductRepository, val d
 
     def createdDate = column[Timestamp]("created_date")
 
-    def homeDelivery = column[Boolean]("delivery")
-
     def address = column[String]("address")
 
     def value = column[Int]("value")
 
     def status = column[String]("status")
 
-    def firstName = column[String]("first_name")
-
-    def lastName = column[String]("last_name")
-
-    def email = column[String]("e_mail")
-
     def phone = column[String]("phone")
 
-    override def * = (id, createdDate, homeDelivery, address, value, status, firstName, lastName, email, phone) <> ((Order.apply _).tupled, Order.unapply)
+    def userID = column[Int]("user_id")
+
+    override def * = (id, createdDate, address, value, status, phone, userID) <> ((Order.apply _).tupled, Order.unapply)
   }
 
   class OrderProductsTable(tag: Tag) extends Table[OrderProduct](tag, "orders_products") {
@@ -63,11 +57,11 @@ class OrdersRepository @Inject()(val productRepository: ProductRepository, val d
   private val orderProducts = TableQuery[OrderProductsTable]
   private val products = TableQuery[ProductTable]
 
-  def create(order: SimpleOrderRepresentation, orderValue: Int) = {
-    val futureOrderCreated = db.run((orders.map(p => (p.createdDate, p.homeDelivery, p.address, p.value, p.status, p.firstName, p.lastName, p.email, p.phone))
+  def create(order: SimpleOrderRepresentation, orderValue: Int, userID: Int) = {
+    val futureOrderCreated = db.run((orders.map(p => (p.createdDate, p.address, p.value, p.status, p.phone, p.userID))
       returning orders.map(_.id)
-      into { case ((createDate, homeDelivery, address, value, status, firstName, lastName, email, phone), id) => Order(id, createDate, homeDelivery, address, value, status, firstName, lastName, email, phone) }
-      ) += (new Timestamp(System.currentTimeMillis()), order.homeDelivery, order.address, orderValue, "new", order.firstName, order.lastName, order.email, order.phone))
+      into { case ((createDate, address, value, status, phone, userID), id) => Order(id, createDate, address, value, status, phone, userID) }
+      ) += (new Timestamp(System.currentTimeMillis()), order.address, orderValue, "new", order.phone, userID))
     futureOrderCreated.flatMap(orderCreated => db.run(orderProducts ++= order.getOrderProducts(orderCreated.id)).map(_ => orderCreated.id))
   }
 
@@ -79,7 +73,7 @@ class OrdersRepository @Inject()(val productRepository: ProductRepository, val d
     db.run(orders.filter(_.id === id).update(orderToUpdate)).map(_ => ())
   }
 
-  def getByIDOption(id: Int)  = db.run(orders.filter(_.id === id).result.headOption)
+  def getByIDOption(id: Int) = db.run(orders.filter(_.id === id).result.headOption)
 
   def list() = db.run(orders.result)
 }

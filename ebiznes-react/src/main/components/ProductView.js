@@ -2,16 +2,17 @@ import React from 'react';
 import { Layout, Collapse, Row, Col, Button, Comment, Rate, message } from 'antd';
 import { createExtra } from './Product';
 import { ajaxGet, ajaxPost } from '../utils/ajax';
-import CommentForm from './CommentForm';
+import CommentForm from './OpinionForm';
+import { isAuthenticated } from '../utils/auth';
 
 const { Header, Content } = Layout;
 const { Panel } = Collapse;
 
 
-const createOpinion = ({ id, rating, comment, timestamp }) => (
+const createOpinion = ({ id, rating, comment, timestamp, author }) => (
     <Comment
         key={id}
-        author="Anonymous"
+        author={author}
         content={(
             <div className="comment-content">
                 <Rate disabled defaultValue={rating} className="comment-rating" />
@@ -45,9 +46,13 @@ export default class ProductView extends React.Component {
             comment
         };
         ajaxPost('opinions/create', data)
-            .then(() => {
-                message.success('New Comment created');
-                this.getOpinions();
+            .then((response) => {
+                if (response.ok()) {
+                    message.success('New Comment created');
+                    this.getOpinions();
+                } else {
+                    message.error('Could not create new comment');
+                }
             }).catch(() => message.error('Could not create new comment'));
     }
 
@@ -89,7 +94,11 @@ export default class ProductView extends React.Component {
                         </Panel>
                         <Panel header="Opinions" key="2">
                             {opinions.map(createOpinion)}
-                            <CommentForm key="comment-form" createOpinion={(rating, comment) => this.createOpinion(id, rating, comment)} />
+                            <CommentForm
+                                key="comment-form"
+                                createOpinion={(rating, comment) => this.createOpinion(id, rating, comment)}
+                                disabled={!isAuthenticated()}
+                            />
                         </Panel>
                     </Collapse>
                 </Content>

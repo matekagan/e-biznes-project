@@ -6,6 +6,8 @@ import Cart from './Cart';
 import { ajaxPost, ajaxGet, ajaxDelete } from '../utils/ajax';
 import ProductView from './ProductView';
 import Adverts from './Adverts';
+import SignInPage from './SignInPage';
+import { isAuthenticated } from '../utils/auth';
 
 const { Content, Sider } = Layout;
 const { SubMenu } = Menu;
@@ -14,8 +16,11 @@ const CART_ID = 'cartID';
 const VIEWS = {
     CATEGORIES: 'categories',
     PRODUCTS: 'products',
-    CART: 'cart'
+    CART: 'cart',
+    SIGN_IN: 'signIn'
 };
+
+const AUTH_PROVIDERES = ['github', 'google'];
 
 const createCartFromList = cartProducts => cartProducts.reduce(
     (cart, { product, amount }) => ({ ...cart, [product.id]: { product, amount } }),
@@ -125,6 +130,18 @@ export default class MainPage extends React.Component {
         }
     }
 
+    logOut = () => {
+        ajaxGet('sign-out')
+            .then((response) => {
+                if (response.ok) {
+                    notification.success({ message: 'Succefully signed out!' });
+                } else {
+                    notification.error({ message: 'Error during logout' });
+                }
+                this.forceUpdate();
+            });
+    }
+
     submitOder = (orderData, callback) => {
         const data = {
             ...orderData,
@@ -162,11 +179,24 @@ export default class MainPage extends React.Component {
 
     render() {
         const { selectedView, cart, selectedCategory, selectedProduct } = this.state;
+        const authenticated = isAuthenticated();
         return (
             <Layout style={{ minHeight: '100vh' }}>
                 <Sider className="fixed-siders">
                     <div className="logo" > INSERT LOGO HERE</div>
-                    <Menu theme="dark" mode="inline" selectedKeys={[selectedView]}>
+                    <Menu theme="dark" mode="inline" selectedKeys={[selectedView]} defaultOpenKeys={[VIEWS.SIGN_IN]}>
+                        <Menu.Item key={VIEWS.SIGN_IN} onClick={this.onSelect} disabled={authenticated}>
+                            <div className="menu-component">
+                                <span>Sign In</span>
+                                <Icon type="login" className="icon-large" />
+                            </div>
+                        </Menu.Item>
+                        <Menu.Item key="signOut" onClick={this.logOut} disabled={!authenticated}>
+                            <div className="menu-component">
+                                <span>Log Out</span>
+                                <Icon type="logout" className="icon-large" />
+                            </div>
+                        </Menu.Item>
                         <SubMenu key="browse" title="Browse">
                             <Menu.Item key={VIEWS.PRODUCTS} onClick={this.onSelect}>
                                 Products
@@ -206,6 +236,8 @@ export default class MainPage extends React.Component {
                                 />);
                             } else if (selectedProduct && !selectedView) {
                                 return <ProductView product={selectedProduct} addToCart={this.addProductToCart} />;
+                            } else if (selectedView === VIEWS.SIGN_IN) {
+                                return <SignInPage providers={AUTH_PROVIDERES} />;
                             }
                             return <Empty />;
                         })()}

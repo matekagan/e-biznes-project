@@ -5,7 +5,7 @@ import java.sql.Timestamp
 import play.api.libs.json.{Format, Json, OFormat}
 import utils.TimeStampFormat
 
-case class Opinion(id: Int, product: Int, rating: Int, comment: String, timestamp: Timestamp)
+case class Opinion(id: Int, product: Int, rating: Int, comment: String, timestamp: Timestamp, useID: Int)
 
 object Opinion {
   implicit val timeStampFormat: Format[Timestamp] = TimeStampFormat

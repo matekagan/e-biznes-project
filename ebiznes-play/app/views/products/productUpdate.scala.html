@@ -5,7 +5,7 @@
 
 @flash.get("success").getOrElse("")
 
-@main("Update product") {
+@adminView("Update product") {
     @form(controllers.shop.routes.ProductController.updateProductHandle()) {
         @helper.CSRF.formField
         <input name="id" id="id" value="@product("id").value" type="hidden" />

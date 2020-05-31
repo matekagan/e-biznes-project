@@ -3,7 +3,7 @@
 
 @import helper._
 
-@main("Create Product") {
+@adminView("Create Product") {
     @flash.get("success").getOrElse("")
 
     @form(controllers.shop.routes.ProductController.createProductHandle()) {

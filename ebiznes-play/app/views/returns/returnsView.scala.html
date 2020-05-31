@@ -1,6 +1,6 @@
 @(returnObjs: Seq[Return])(implicit request: MessagesRequestHeader, flash: Flash)
 
-@main("Payments") {
+@adminView("Payments") {
     <div>
         @flash.get("success").getOrElse("")
         <table class="common-table">

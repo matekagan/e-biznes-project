@@ -1,0 +1,23 @@
+@import play.api.data.Form
+@import play.api.mvc.RequestHeader
+
+@import forms.SignUpForm.Data
+
+@import views.html.helper.form
+@import views.html.inputs.simpleInput
+@(signUpForm: Form[Data])(implicit request: RequestHeader, flash: Flash)
+
+@main("Sign Up") {
+    @form(controllers.auth.routes.SignUpController.submit()) {
+
+        @helper.CSRF.formField
+        @simpleInput("firstName", "First Name", required = true, None, None)
+        @simpleInput("lastName", "Last Name", required = true, None, None)
+        @simpleInput("email", "Email", required = true, None, None)
+        @simpleInput("password", "Password", required = true, None, Option("password"))
+
+        <div class="buttons">
+            <input type="submit" value="Sign Up"/>
+        </div>
+    }
+}

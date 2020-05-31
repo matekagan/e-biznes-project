@@ -1,7 +1,7 @@
 @(categories: Seq[Category])(implicit request: MessagesRequestHeader, flash: Flash)
 
 
-@main("Categories") {
+@adminView("Categories") {
 
     <div>
         @flash.get("success").getOrElse("")

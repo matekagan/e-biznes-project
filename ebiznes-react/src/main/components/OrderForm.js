@@ -2,17 +2,13 @@ import React from 'react';
 import {
     Form,
     Input,
-    Checkbox,
     Button,
     Modal,
     Result
 } from 'antd';
 import {
-    EMAIL_CONFIG,
     PHONE_CONFIG,
-    NAME_CONFIG,
-    ADDRESS_CONFIG,
-    DELIVERY_CHECKBOX_CONFIG
+    ADDRESS_CONFIG
 } from '../utils/formUtils';
 
 const { TextArea } = Input;
@@ -43,9 +39,8 @@ class OrderForm extends React.Component {
         e.preventDefault();
         this.props.form.validateFieldsAndScroll((err, values) => {
             if (!err) {
-                console.log('Received values of form: ', values);
                 this.props.submit(
-                    { ...values, homeDelivery: values.homeDelivery || false },
+                    values,
                     this.handleOrderCreate
                 );
             }
@@ -60,23 +55,11 @@ class OrderForm extends React.Component {
         const { getFieldDecorator } = this.props.form;
         return (
             <Form onSubmit={this.handleSubmit}>
-                <Form.Item label="First name">
-                    {getFieldDecorator('firstName', NAME_CONFIG)(<Input />)}
-                </Form.Item>
-                <Form.Item label="Last name">
-                    {getFieldDecorator('lastName', NAME_CONFIG)(<Input />)}
-                </Form.Item>
-                <Form.Item label="E-mail">
-                    {getFieldDecorator('email', EMAIL_CONFIG)(<Input />)}
-                </Form.Item>
                 <Form.Item label="Phone Number">
                     {getFieldDecorator('phone', PHONE_CONFIG)(<Input />)}
                 </Form.Item>
                 <Form.Item label="Address">
                     {getFieldDecorator('address', ADDRESS_CONFIG)(<TextArea rows={4} />)}
-                </Form.Item>
-                <Form.Item>
-                    {getFieldDecorator('homeDelivery', DELIVERY_CHECKBOX_CONFIG)(<Checkbox>Home Devilery</Checkbox>)}
                 </Form.Item>
                 <Form.Item >
                     <Button type="primary" htmlType="submit">

@@ -4,7 +4,7 @@
 
 @import helper._
 
-@main("Create Payment") {
+@adminView("Create Payment") {
     @flash.get("success").getOrElse("")
 
     @form(controllers.shop.routes.PaymentController.createPayment(order)) {

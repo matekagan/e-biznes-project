@@ -1,15 +1,20 @@
 package controllers.shop
 
 import api.{CartProductWithDiscount, CreateResult, ProductWithAmount}
-import javax.inject.{Inject, Singleton}
+import com.mohiva.play.silhouette.api.actions.SecuredRequest
+import controllers.auth.{SilhouetteController, SilhouetteControllerComponents}
+import javax.inject.Inject
 import play.api.libs.json.Json
-import play.api.mvc.{MessagesAbstractController, MessagesControllerComponents}
+import play.api.mvc.AnyContent
 import repositories.CartRepository
+import utils.auth.DefaultEnv
 
 import scala.concurrent.{ExecutionContext, Future}
 
-@Singleton
-class CartController @Inject()(cartRepository: CartRepository, cc: MessagesControllerComponents)(implicit ec: ExecutionContext) extends MessagesAbstractController(cc) {
+class CartController @Inject()(
+  cartRepository: CartRepository,
+  cc: SilhouetteControllerComponents
+)(implicit ec: ExecutionContext) extends SilhouetteController(cc) {
 
   def createCart = Action.async { request =>
     val cartProducts = request.body.asJson.map(Json.fromJson[Seq[ProductWithAmount]](_))
@@ -17,10 +22,6 @@ class CartController @Inject()(cartRepository: CartRepository, cc: MessagesContr
       _ => Future(BadRequest(Json.toJson(CreateResult()))),
       products => cartRepository.create(products).map(uuid => Ok(Json.toJson(CreateResult(uuid)))))
     ).getOrElse(Future(BadRequest(Json.toJson(CreateResult()))))
-  }
-
-  def handleUpdate(id: Int) = Action {
-    Ok("updated cart") //TODO: handle
   }
 
   def getByID(id: Int) = Action.async {
@@ -35,6 +36,7 @@ class CartController @Inject()(cartRepository: CartRepository, cc: MessagesContr
       .map(list => Json.toJson(list))
       .map(json => Ok(json))
   }
+
   def deleteCart(uuid: String) = Action.async {
     cartRepository.delete(uuid).map(_ => Ok("deleted"))
   }
@@ -49,8 +51,8 @@ class CartController @Inject()(cartRepository: CartRepository, cc: MessagesContr
       .map(list => Ok(Json.toJson(list)))
   }
 
-  def viewCarts() = Action.async { implicit request =>
-    cartRepository.list()
-      .map(list => Ok(views.html.carts.cartsView(list)))
+  def viewCarts() = SecuredAction.async {
+    implicit request: SecuredRequest[DefaultEnv, AnyContent] =>
+      cartRepository.list().map(list => Ok(views.html.carts.cartsView(list)))
   }
 }

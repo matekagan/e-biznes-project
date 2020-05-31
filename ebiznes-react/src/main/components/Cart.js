@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Table, Icon, Button, Layout, Input } from 'antd';
 import { parsePrice } from '../utils/numberUtils';
 import OrderForm from './OrderForm';
+import { isAuthenticated } from '../utils/auth';
 
 const { Header, Content } = Layout;
 const { Search } = Input;
@@ -72,11 +73,22 @@ export default ({ cart, incrementAmount, remove, saveCart, loadCart, submitOder 
         remove
     );
     const total = dataSource.map(row => row.total).reduce((val1, val2) => val1 + val2, 0);
+
+    const authorizated = isAuthenticated();
+
     const footer = () => (
         <div className="cart-table-footer">
             <div>
                 <Button type="primary" className="table-footer-button" onClick={() => saveCart()}>Save Cart</Button>
-                <Button type="primary" className="table-footer-button" onClick={() => setFormVisivility(true)}>Check Out</Button>
+                <Button
+                    type="primary"
+                    className="table-footer-button"
+                    onClick={() => setFormVisivility(true)}
+                    disabled={!authorizated}
+                >
+                    Check Out
+                </Button>
+                {authorizated || <span className="not-signed-message">You need to be Signed In in order to finalize order</span>}
             </div>
             <span>Total cart value: {parsePrice(total)}</span>
         </div>

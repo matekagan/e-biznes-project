@@ -19,7 +19,7 @@ html {
     width: 70vw;
     background-color: aliceblue;
     padding: 50px;
-    height: 85vh;
+    height: 75vh;
     overflow: auto;
     display: flex;
     justify-content: center;
@@ -42,6 +42,7 @@ table, th, td {
     border: none;
     color: white;
     text-align: center;
+    justify-items: center;
     text-decoration: none;
     display: inline-block;
     border-radius: 5px;
@@ -49,7 +50,6 @@ table, th, td {
 
 .button.button-home {
     background-color: #710909;
-    margin-bottom: 20px;
 }
 
 .menu {
@@ -58,15 +58,35 @@ table, th, td {
     padding: 0;
 }
 
+.header {
+    height: 10vh;
+    background-color: #4971a6;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.header-button-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.header-button-container a {
+    padding: 10px;
+    font-weight: 600;
+}
+
 .sidebar {
     padding: 20px;
     display: flex;
     flex-direction: column;
     width: 200px;
-    height: 100vh;
+    height: 90vh;
     position: fixed;
     top: 0px;
     left: 0px;
+    margin-top: 10vh;
 }
 
 .sidebar li a {
@@ -92,4 +112,50 @@ dl dt {
 
 dl dd:last-child {
     width: 50px;
+}
+
+.message-container {
+    position: fixed;
+    right: 0;
+    margin-top: 10vh;
+    width: 150px;
+    display: flex;
+    flex-direction: column;
+}
+
+.message-container div {
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.message-container .success {
+    background-color: #91ff66;
+    color: #2c4d1f;
+}
+
+.message-container .error {
+    background-color: #ff6145;
+    color: #4d1515;
+}
+
+.sign-in-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.sign-in-container form {
+    margin: 20px;
+}
+
+.social-providers-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 20px;
+}
+
+.social-providers {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }

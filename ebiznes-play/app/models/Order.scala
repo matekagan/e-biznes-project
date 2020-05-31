@@ -5,8 +5,7 @@ import java.sql.Timestamp
 import play.api.libs.json.{Format, Json, OFormat}
 import utils.TimeStampFormat
 
-case class Order(id: Int, createDate: Timestamp, homeDelivery: Boolean, address: String, value: Int, status: String,
-                 firstName: String, lastName: String, email: String, phone: String)
+case class Order(id: Int, createDate: Timestamp, address: String, value: Int, status: String, phone: String, userID: Int)
 
 case class OrderProduct(orderID: Int, productID: Int, amount: Int)
 

@@ -4,7 +4,7 @@
 
 @import helper._
 
-@main("Create Category") {
+@adminView("Create Category") {
     @flash.get("success").getOrElse("")
 
     @form(controllers.shop.routes.CategoriesController.createCategoryHandle()) {

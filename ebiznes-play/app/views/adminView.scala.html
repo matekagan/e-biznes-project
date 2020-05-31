@@ -1,0 +1,20 @@
+@(title: String)(content: Html)(implicit request: RequestHeader, flash: Flash)
+@main(title) {
+    <div class="sidebar">
+        <ul class="menu">
+            <li><a class="button" href=@controllers.shop.routes.ProductController.viewProducts()>Products</a></li>
+            <li><a class="button" href=@controllers.shop.routes.OpinionController.viewOpinions()>Opinions</a></li>
+            <li><a class="button" href=@controllers.shop.routes.CategoriesController.viewCategories()>Categories</a></li>
+            <li><a class="button" href=@controllers.shop.routes.EmployeeController.viewEmployees()>Employees</a></li>
+            <li><a class="button" href=@controllers.shop.routes.AdvertisementController.viewAds()>Adverts</a></li>
+            <li><a class="button" href=@controllers.shop.routes.DiscountController.viewDiscounts()>Discounts</a></li>
+            <li><a class="button" href=@controllers.shop.routes.OrderController.viewOrders()>Orders</a></li>
+            <li><a class="button" href=@controllers.shop.routes.PaymentController.viewPayments()>Payments</a></li>
+            <li><a class="button" href=@controllers.shop.routes.ReturnController.viewReturns()>Returns</a></li>
+            <li><a class="button" href=@controllers.shop.routes.CartController.viewCarts()>Carts</a></li>
+        </ul>
+    </div>
+    <div class="centered-container">
+    @content
+    </div>
+}

@@ -8,7 +8,7 @@ const DEFAULT_STATE = {
     comment: ''
 };
 
-export default class CommentForm extends React.Component {
+export default class OpinionForm extends React.Component {
     constructor(props) {
         super(props);
         this.state = DEFAULT_STATE;
@@ -29,6 +29,7 @@ export default class CommentForm extends React.Component {
 
     render() {
         const { rating, comment } = this.state;
+        const { disabled = false } = this.props;
         return (
             <Comment
                 content={(
@@ -38,9 +39,10 @@ export default class CommentForm extends React.Component {
                             <TextArea rows={4} onChange={this.handleCommentChange} value={comment} />
                         </Form.Item>
                         <Form.Item>
-                            <Button type="primary" onClick={this.handleformSubmit}>
+                            <Button type="primary" onClick={this.handleformSubmit} disabled={disabled}>
                                 Add Comment
                             </Button>
+                            {disabled && <span className="not-signed-message">You need be Signed Up in order to post opinions</span>}
                         </Form.Item>
                     </div>
                 )}

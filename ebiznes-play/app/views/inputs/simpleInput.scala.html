@@ -1,0 +1,12 @@
+@(name: String, label: String, required: Boolean, value: Option[String], inputType: Option[String])
+
+<dl>
+    <dt>
+        <label for="@name">@label</label>
+    </dt>
+    <dt>
+        <input type="@inputType.getOrElse("text")" id="@name" name="@name" value="@value.getOrElse("")">
+    </dt>
+    <dd class="info">@(if (required) "Required" else "")</dd>
+</dl>
+

@@ -3,7 +3,7 @@
 
 @import helper._
 
-@main("Update Order") {
+@adminView("Update Order") {
     @flash.get("success").getOrElse("")
 
     @form(controllers.shop.routes.OrderController.updateOrderHandle()) {

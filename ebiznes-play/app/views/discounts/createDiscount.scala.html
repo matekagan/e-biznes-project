@@ -3,7 +3,7 @@
 
 @import helper._
 
-@main("Create Discount") {
+@adminView("Create Discount") {
     @flash.get("success").getOrElse("")
 
     @form(controllers.shop.routes.DiscountController.createDiscountOrUpdate()) {

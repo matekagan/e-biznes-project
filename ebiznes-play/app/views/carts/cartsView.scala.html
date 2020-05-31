@@ -1,9 +1,9 @@
-@(carts: Seq[Cart])(implicit request: MessagesRequestHeader, flash: Flash)
+@(carts: Seq[Cart])(implicit request: RequestHeader, flash: Flash)
 
-@main("Carts") {
+@adminView("Carts") {
     <div>
         @flash.get("success").getOrElse("")
-        <table class="common-table">]
+        <table class="common-table">
             <caption>Carts</caption>
             <tr>
                 <th  scope="col">ID</th>

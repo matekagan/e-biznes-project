@@ -1,5 +1,5 @@
-@(message: String)
+@()(implicit request: RequestHeader, flash: Flash)
 
-@main("Admin Panel") {
-    <h1>Admin Panel</h1>
+@main("Home Page") {
+    <h1><a class="button" href="@controllers.routes.HomeController.adminPanel()">Admin Panel</a></h1>
 }

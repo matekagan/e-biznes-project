@@ -2,6 +2,8 @@ package repositories
 
 import java.sql.Timestamp
 
+import auth.model.User
+import auth.repository.{UserRepositoryImpl}
 import javax.inject.{Inject, Singleton}
 import models.Opinion
 import play.api.db.slick.DatabaseConfigProvider
@@ -11,7 +13,11 @@ import slick.sql.SqlProfile.ColumnOption.SqlType
 import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
-class OpinionRepository @Inject()(productRepository: ProductRepository, dbConfigProvider: DatabaseConfigProvider)(implicit ec: ExecutionContext) {
+class OpinionRepository @Inject()(
+  productRepository: ProductRepository,
+  dbConfigProvider: DatabaseConfigProvider,
+  val userRepository: UserRepositoryImpl
+)(implicit ec: ExecutionContext) {
   private val dbConfig = dbConfigProvider.get[JdbcProfile]
 
   import dbConfig._
@@ -28,44 +34,53 @@ class OpinionRepository @Inject()(productRepository: ProductRepository, dbConfig
 
     def comment = column[String]("comment")
 
+    def user = column[Int]("user")
+
     def productFK = foreignKey("product_fk", product, products)(_.id)
 
-    override def * = (id, product, rating, comment, timestamp) <> ((Opinion.apply _).tupled, Opinion.unapply)
+    def userFK = foreignKey("user", product, products)(_.id)
+
+    override def * = (id, product, rating, comment, timestamp, user) <> ((Opinion.apply _).tupled, Opinion.unapply)
   }
 
   import productRepository.ProductTable
+  import userRepository.UserTable
 
-  private val opinion = TableQuery[OpinionTable]
+  private val opinions = TableQuery[OpinionTable]
   private val products = TableQuery[ProductTable]
+  private val users = TableQuery[UserTable]
 
-  def create(product: Int, rating: Int, comment: String): Future[Opinion] = db.run {
-    (opinion.map(p => (p.product, p.rating, p.comment, p.timestamp))
-      returning opinion.map(_.id)
-      into { case ((product, rating, comment, timestamp), id) => Opinion(id, product, rating, comment, timestamp) }
-      ) += (product, rating, comment, new Timestamp(System.currentTimeMillis()))
+  def create(product: Int, rating: Int, comment: String, userID: Int): Future[Opinion] = db.run {
+    (opinions.map(p => (p.product, p.rating, p.comment, p.timestamp, p.user))
+      returning opinions.map(_.id)
+      into { case ((product, rating, comment, timestamp, user), id) => Opinion(id, product, rating, comment, timestamp, user) }
+      ) += (product, rating, comment, new Timestamp(System.currentTimeMillis()), userID)
   }
 
   def list(): Future[Seq[Opinion]] = db.run {
-    opinion.result
+    opinions.result
   }
 
   def getByID(id: Int): Future[Opinion] = db.run {
-    opinion.filter(_.id === id).result.head
+    opinions.filter(_.id === id).result.head
   }
 
   def getByIDOption(id: Int): Future[Option[Opinion]] = db.run {
-    opinion.filter(_.id === id).result.headOption
+    opinions.filter(_.id === id).result.headOption
   }
 
-  def getByProductID(id: Int): Future[Seq[Opinion]] = db.run {
-    opinion.filter(_.product === id).result
+  def getByProductID(id: Int): Future[Seq[(Opinion, User)]] = db.run {
+    (for {
+      opinion <- opinions if opinion.id === id
+      user <- users if opinion.user === user.id
+    } yield (opinion, user)).result
   }
 
-  def delete(id: Int): Future[Unit] = db.run(opinion.filter(_.id === id).delete).map(_ => ())
+  def delete(id: Int): Future[Unit] = db.run(opinions.filter(_.id === id).delete).map(_ => ())
 
   def update(id: Int, newOpinion: Opinion): Future[Unit] = {
     val opinionToUpdate = newOpinion.copy(id)
-    db.run(opinion.filter(_.id === id).update(opinionToUpdate)).map(_ => ())
+    db.run(opinions.filter(_.id === id).update(opinionToUpdate)).map(_ => ())
   }
 
 }

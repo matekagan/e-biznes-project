@@ -3,7 +3,7 @@
 
 @import helper._
 
-@main("Add Employee"){
+@adminView("Add Employee"){
     @flash.get("success").getOrElse("")
 
     @form(controllers.shop.routes.EmployeeController.addEmployeeHandle()) {

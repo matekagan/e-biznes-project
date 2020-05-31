@@ -1,18 +1,24 @@
+import { getAuthToken } from './auth';
+
+export const SERVER_PATH = 'http://localhost:8888';
 
 const createRequest = (url, method = 'GET', data = null) => {
-    const headers = {};
+    const headers = {
+        'Csrf-Token': getAuthToken()
+    };
     if (data) {
         headers['Content-Type'] = 'application/json';
     }
     const config = {
         headers,
         mode: 'cors',
-        method
+        method,
+        credentials: 'include'
     };
     if (data) {
         config.body = JSON.stringify(data);
     }
-    return fetch(`http://localhost:8888/${url}`, config);
+    return fetch(`${SERVER_PATH}/${url}`, config);
 };
 
 export const ajaxGet = url => createRequest(url, 'GET');
