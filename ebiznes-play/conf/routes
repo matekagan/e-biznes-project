@@ -20,6 +20,9 @@ POST          /sign-in                             controllers.auth.SignInContro
 GET           /authenticate/:provider              controllers.auth.SocialAuthController.authenticate(provider)
 GET           /sign-out                            controllers.HomeController.signOut()
 
+GET           /change-password                     controllers.auth.ChangePasswordController.view
+POST          /change-password                     controllers.auth.ChangePasswordController.submit
+
 POST          /cart/create                         controllers.shop.CartController.createCart
 DELETE        /cart/:uuid/delete                   controllers.shop.CartController.deleteCart(uuid:String)
 GET           /cart/:id/delete-by-id               controllers.shop.CartController.deleteCartByID(id:Int)
